@@ -43,7 +43,11 @@ class clsLoginScreen : protected clsScreen
 
 		} while (LoginFailed);
 
+		CurrentUser.RegisterLogin();
+
 		clsMainScreen::ShowMainMenu();
+
+		return false;
 	}
 public:
 	static bool ShowLoginScreen()

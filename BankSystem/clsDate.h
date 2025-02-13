@@ -763,5 +763,20 @@ public:
 		return IsValidDate(*this);
 	}
 
+	static string GetSystemDateTimeString()
+	{
+		time_t t = time(0);
+		tm* now = localtime(&t);
+
+		short Year = now->tm_year + 1900;
+		short Month = now->tm_mon + 1;
+		short Day = now->tm_mday;
+		short Hour = now->tm_hour;
+		short Minute = now->tm_min;
+		short Second = now->tm_sec;
+
+		return to_string(Day) + "/" + to_string(Month) + "/" + to_string(Year)
+			+ " - " + to_string(Hour) + ":" + to_string(Minute) + ":" + to_string(Second);
+	}
 };
 

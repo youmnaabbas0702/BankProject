@@ -4,6 +4,7 @@
 #include "string"
 #include <vector>
 #include "clsString.h"
+#include "clsDate.h"
 
 class clsUser : public clsPerson
 {
@@ -144,6 +145,20 @@ class clsUser : public clsPerson
 	static clsUser _GetEmptyUserObject()
 	{
 		return clsUser(enMode::EmptyMode, "", "", "", "", "", "", 0);
+	}
+
+	string _PrepareLoginRecord(string Separator = "#//#")
+	{
+		string datetime_str = clsDate::GetSystemDateTimeString();
+
+		string Line = "";
+
+		Line += datetime_str + Separator;
+		Line += UserName + Separator;
+		Line += Password + Separator;
+		Line += to_string(Permissions);
+
+		return Line;
 	}
 
 public:
@@ -351,5 +366,20 @@ public:
 		else
 			return false;
 	}
+
+	 void RegisterLogin()
+	{
+		 string Line = _PrepareLoginRecord();
+
+		fstream LogFile;
+		LogFile.open("LoginRegister.txt", ios::out | ios::app);
+
+		if (LogFile.is_open())
+		{
+			LogFile << Line << endl;
+			LogFile.close();
+		}
+	}
+
 };
 
