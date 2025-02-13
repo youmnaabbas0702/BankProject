@@ -161,10 +161,38 @@ class clsUser : public clsPerson
 		return Line;
 	}
 
+	struct stLoginRegisterRecord;
+
+	static stLoginRegisterRecord _ConvertLoginRegisterLineToRecord(string Line, string Seperator = "#//#")
+	{
+		stLoginRegisterRecord Record;
+
+		vector<string> vLoginRegisterData;
+		vLoginRegisterData = clsString::Split(Line, Seperator);
+
+		Record.DateTime = vLoginRegisterData[0];
+		Record.UserName = vLoginRegisterData[1];
+		Record.Password = vLoginRegisterData[2];
+		Record.Permissions = stoi(vLoginRegisterData[3]);
+
+		return Record;
+
+	}
+
+
 public:
 	enum enPermissions {
 		eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
-		pUpdateClient = 8, pFindClient = 16, pTransactions = 32, pManageUsers = 64 
+		pUpdateClient = 8, pFindClient = 16, pTransactions = 32, pManageUsers = 64 , pLoginRegister = 128
+	};
+
+
+	struct stLoginRegisterRecord
+	{
+		string DateTime;
+		string UserName;
+		string Password;
+		int Permissions;
 	};
 
 	clsUser(enMode Mode, string FirstName, string LastName, string Email,
@@ -380,6 +408,30 @@ public:
 			LogFile.close();
 		}
 	}
+
+	 static vector<stLoginRegisterRecord> GetLoginRegisterList()
+	 {
+		 vector<stLoginRegisterRecord> vLoginRegisterRecords;
+
+		 fstream LogFile;
+		 LogFile.open("LoginRegister.txt", ios::in);
+
+		 if (LogFile.is_open())
+		 {
+			 string Line;
+			 stLoginRegisterRecord LoginRegisterRecord;
+
+			 while (getline(LogFile, Line))
+			 {
+				 LoginRegisterRecord = _ConvertLoginRegisterLineToRecord(Line);
+				 vLoginRegisterRecords.push_back(LoginRegisterRecord);
+			 }
+
+			 LogFile.close();
+		 }
+
+		 return vLoginRegisterRecords;
+	 }
 
 };
 
