@@ -2,8 +2,10 @@
 
 int main()
 {
-    while(true)
+    bool Locked = false;
+
+    while(!Locked)
     {
-        clsLoginScreen::ShowLoginScreen();
+       Locked = clsLoginScreen::ShowLoginScreen();
     }
 }
