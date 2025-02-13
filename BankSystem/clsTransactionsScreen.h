@@ -4,6 +4,7 @@
 #include "clsDepositScreen.h";
 #include "clsWithDrawScreen.h"
 #include "clsAllBalancesScreen.h"
+#include "clsUser.h"
 
 class clsTransactionsScreen : protected clsScreen
 {
@@ -69,6 +70,10 @@ class clsTransactionsScreen : protected clsScreen
 public:
     static void ShowTransactionsMenu()
     {
+        if (!CheckAccessRights(clsUser::enPermissions::pTransactions))
+        {
+            return;
+        }
         system("cls");
 
         _DrawScreenHeader("\t  Transactions Screen");

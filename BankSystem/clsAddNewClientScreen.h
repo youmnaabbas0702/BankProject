@@ -2,6 +2,7 @@
 #include "clsScreen.h"
 #include "clsBankClient.h"
 #include "clsInputValidate.h"
+#include "clsUser.h"
 
 class clsAddNewClientScreen : protected clsScreen
 {
@@ -40,6 +41,10 @@ class clsAddNewClientScreen : protected clsScreen
 public:
     static void ShowAddNewClientScreen()
     {
+        if (!CheckAccessRights(clsUser::enPermissions::pAddNewClient))
+        {
+            return;
+        }
         _DrawScreenHeader("\t  Add New Client Screen");
 
         cout << "\nEnter AccountNumber: ";

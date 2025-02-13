@@ -2,7 +2,7 @@
 #include "clsScreen.h"
 #include "clsBankClient.h"
 #include "clsInputValidate.h"
-
+#include "clsUser.h"
 class clsUpdateClientScreen : protected clsScreen
 {
     static void _ReadClientInfo(clsBankClient& Client)
@@ -40,6 +40,10 @@ class clsUpdateClientScreen : protected clsScreen
 public:
 	static void ShowUpdateClientScreen()
     {
+        if (!CheckAccessRights(clsUser::enPermissions::pUpdateClient))
+        {
+            return;
+        }
         _DrawScreenHeader("\tUpdate Client Screen");
 
         string AccountNumber = "";

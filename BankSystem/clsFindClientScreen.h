@@ -1,5 +1,7 @@
 #pragma once
 #include "clsScreen.h"
+#include "clsUser.h"
+
 class clsFindClientScreen : protected clsScreen
 {
     static void _PrintClient(clsBankClient Client)
@@ -20,6 +22,10 @@ class clsFindClientScreen : protected clsScreen
 public:
     static void ShowFindClientScreen()
     {
+        if (!CheckAccessRights(clsUser::enPermissions::pFindClient))
+        {
+            return;
+        }
         _DrawScreenHeader("\t  Find Client Screen");
 
         string AccountNumber;
