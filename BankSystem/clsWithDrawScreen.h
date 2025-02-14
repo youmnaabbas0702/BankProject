@@ -55,7 +55,7 @@ public:
         {
             if(Client.WithDraw(Amount))
             {
-                cout << "Amount Withsrewn Successfully.\n";
+                cout << "Amount Withdrewn Successfully.\n";
                 cout << "\nNew Balance is: " << Client.AccountBalance;
             }
 

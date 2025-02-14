@@ -316,5 +316,19 @@ public:
 			return true;
 		}
 	}
+
+	 bool Transfer( clsBankClient &ReceiverClient, double Amount)
+	{
+		if (Amount > AccountBalance || AccountNumber == ReceiverClient.AccountNumber)
+		{
+			return false;
+		}
+		else
+		{
+			WithDraw(Amount);
+			ReceiverClient.Deposit(Amount);
+			return true;
+		}
+	}
 };
 
