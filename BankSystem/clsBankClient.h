@@ -149,6 +149,25 @@ class clsBankClient : public clsPerson
 		}
 	}
 
+	struct stTransferLogRecord;
+
+	static stTransferLogRecord _ConvertTransferLogLineToRecord(string Line, string Seperator = "#//#")
+	{
+		stTransferLogRecord Record;
+
+		vector<string> vTransferLogData;
+		vTransferLogData = clsString::Split(Line, Seperator);
+
+		Record.DateTime = vTransferLogData[0];
+		Record.sAccNumber = vTransferLogData[1];
+		Record.dAccNumber = vTransferLogData[2];
+		Record.Amount = stod(vTransferLogData[3]);
+		Record.sBalance = stod(vTransferLogData[4]);
+		Record.dBalance = stod(vTransferLogData[5]);
+		Record.UserName = vTransferLogData[6];
+		return Record;
+
+	}
 public:
 
 	clsBankClient(enMode Mode, string FirstName, string LastName, string Email,
@@ -160,6 +179,17 @@ public:
 	    _PinCode = PinCode;
 		_AccountBalance = AccountBalance;
 	}
+
+	struct stTransferLogRecord
+	{
+		string DateTime;
+		string sAccNumber;
+		string dAccNumber;
+		double Amount;
+		double sBalance;
+		double dBalance;
+		string UserName;
+	};
 
 	bool IsEmpty()
 	{
@@ -363,5 +393,29 @@ public:
 			return true;
 		}
 	}
+
+	 static vector<stTransferLogRecord> GetTransfersLogList()
+	 {
+		 vector<stTransferLogRecord> vTransfersLogList;
+
+		 fstream LogFile;
+		 LogFile.open("TransferLog.txt", ios::in);
+
+		 if (LogFile.is_open())
+		 {
+			 string Line;
+			 stTransferLogRecord TransferLogRecord;
+
+			 while (getline(LogFile, Line))
+			 {
+				 TransferLogRecord = _ConvertTransferLogLineToRecord(Line);
+				 vTransfersLogList.push_back(TransferLogRecord);
+			 }
+
+			 LogFile.close();
+		 }
+
+		 return vTransfersLogList;
+	 }
 };
 
