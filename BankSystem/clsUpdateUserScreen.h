@@ -107,6 +107,13 @@ class clsUpdateUserScreen : protected clsScreen
             Permissions += clsUser::enPermissions::pLoginRegister;
         }
 
+        cout << "\nCurrency Exchange? y/n? ";
+        cin >> Answer;
+        if (Answer == 'y' || Answer == 'Y')
+        {
+            Permissions += clsUser::enPermissions::pCurrencyExchange;
+        }
+
         return Permissions;
 
     }

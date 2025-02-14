@@ -15,14 +15,14 @@ void _PrintCurrency(clsCurrency Currency)
 
 int main()
 {
-    /*bool Locked = false;
+    bool Locked = false;
 
     while(!Locked)
     {
        Locked = clsLoginScreen::ShowLoginScreen();
-    }*/
+    }
 
-    clsCurrency C1 = C1.Find("EGP");
+   /* clsCurrency C1 = C1.Find("Egp");
 
     if (C1.IsEmpty())
     {
@@ -33,7 +33,7 @@ int main()
         _PrintCurrency(C1);
     }
     
-    clsCurrency C2 = C2.Find("China");
+    clsCurrency C2 = C2.Find("china");
 
     if (C2.IsEmpty())
     {
@@ -46,6 +46,6 @@ int main()
 
     cout << "Currency1 after updating Rate:\n";
     C1.UpdateRate(50.63);
-    _PrintCurrency(C1);
+    _PrintCurrency(C1);*/
 
 }
