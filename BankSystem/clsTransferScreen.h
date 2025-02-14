@@ -2,6 +2,7 @@
 #include "clsScreen.h"
 #include "clsBankClient.h"
 #include "clsInputValidate.h"
+#include "global.h"
 
 class clsTransferScreen : protected clsScreen
 {
@@ -70,7 +71,7 @@ public:
 
         if (PerformTransaction == 'y' || PerformTransaction == 'Y')
         {
-            if (ClientFrom.Transfer(ClientTo,Amount))
+            if (ClientFrom.Transfer(ClientTo,Amount, CurrentUser.UserName))
             {
                 cout << "Amount Transfered Successfully.\n";
                 _PrintClient(ClientFrom);

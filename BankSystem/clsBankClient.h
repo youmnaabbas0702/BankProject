@@ -118,6 +118,37 @@ class clsBankClient : public clsPerson
 		}
 	}
 
+	string _PrepareTransferRecord(double Amount, clsBankClient DestinationClient, string UserName, string Separator = "#//#")
+	{
+		string datetime_str = clsDate::GetSystemDateTimeString();
+
+		string Line = "";
+
+		Line += datetime_str + Separator;
+		Line += AccountNumber + Separator;
+		Line += DestinationClient.AccountNumber + Separator;
+		Line += to_string(Amount) + Separator;
+		Line += to_string(AccountBalance) + Separator;
+		Line += to_string(DestinationClient.AccountBalance) + Separator;
+		Line += UserName;
+
+		return Line;
+	}
+
+	void _RegisterTransferLog(double Amount, clsBankClient DestinationClient, string UserName)
+	{
+		string Line = _PrepareTransferRecord(Amount, DestinationClient, UserName);
+
+		fstream LogFile;
+		LogFile.open("TransferLog.txt", ios::out | ios::app);
+
+		if (LogFile.is_open())
+		{
+			LogFile << Line << endl;
+			LogFile.close();
+		}
+	}
+
 public:
 
 	clsBankClient(enMode Mode, string FirstName, string LastName, string Email,
@@ -317,7 +348,7 @@ public:
 		}
 	}
 
-	 bool Transfer( clsBankClient &ReceiverClient, double Amount)
+	 bool Transfer( clsBankClient &ReceiverClient, double Amount, string UserName)
 	{
 		if (Amount > AccountBalance || AccountNumber == ReceiverClient.AccountNumber)
 		{
@@ -327,6 +358,8 @@ public:
 		{
 			WithDraw(Amount);
 			ReceiverClient.Deposit(Amount);
+
+			_RegisterTransferLog(Amount, ReceiverClient, UserName);
 			return true;
 		}
 	}
