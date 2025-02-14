@@ -266,5 +266,32 @@ public:
 		}
 	}
 
+	static string EncryptText(string Text, int EncryptionKey = 2)
+	{
+		string OriginalText = Text;
+		string EncryptedText = "";
+
+		for (int i = 0; i < OriginalText.length(); i++)
+		{
+			int index = (int)OriginalText[i] + EncryptionKey;
+			EncryptedText += char(index);
+		}
+
+		return EncryptedText;
+	}
+
+	static string DecryptText(string Text, int EncryptionKey = 2)
+	{
+		string EncryptedText = Text;
+		string OriginalText = "";
+
+		for (int i = 0; i < EncryptedText.length(); i++)
+		{
+			int index = (int)EncryptedText[i] - EncryptionKey;
+			OriginalText += char(index);
+		}
+
+		return OriginalText;
+	}
 };
 

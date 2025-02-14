@@ -5,6 +5,7 @@
 #include <vector>
 #include "clsString.h"
 #include "clsDate.h"
+#include "clsUtil.h"
 
 class clsUser : public clsPerson
 {
@@ -22,7 +23,7 @@ class clsUser : public clsPerson
 		vUserData = clsString::Split(Line, Seperator);
 
 		return clsUser(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2],
-			vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6]));
+			vUserData[3], vUserData[4], clsUtil::DecryptText(vUserData[5]), stoi(vUserData[6]));
 
 	}
 
@@ -35,7 +36,7 @@ class clsUser : public clsPerson
 		UserRecord += User.Email + Seperator;
 		UserRecord += User.Phone + Seperator;
 		UserRecord += User.UserName + Seperator;
-		UserRecord += User.Password + Seperator;
+		UserRecord += clsUtil::EncryptText(User.Password) + Seperator;
 		UserRecord += to_string(User.Permissions);
 
 		return UserRecord;
@@ -127,6 +128,7 @@ class clsUser : public clsPerson
 			if (U.UserName == UserName)
 			{
 				U = *this;
+				U.Password = clsUtil::EncryptText(U.Password);
 				break;
 			}
 
@@ -155,7 +157,7 @@ class clsUser : public clsPerson
 
 		Line += datetime_str + Separator;
 		Line += UserName + Separator;
-		Line += Password + Separator;
+		Line += clsUtil::EncryptText(Password) + Separator;
 		Line += to_string(Permissions);
 
 		return Line;
@@ -172,7 +174,7 @@ class clsUser : public clsPerson
 
 		Record.DateTime = vLoginRegisterData[0];
 		Record.UserName = vLoginRegisterData[1];
-		Record.Password = vLoginRegisterData[2];
+		Record.Password = clsUtil::DecryptText(vLoginRegisterData[2]);
 		Record.Permissions = stoi(vLoginRegisterData[3]);
 
 		return Record;
@@ -433,5 +435,6 @@ public:
 		 return vLoginRegisterRecords;
 	 }
 
+	
 };
 
