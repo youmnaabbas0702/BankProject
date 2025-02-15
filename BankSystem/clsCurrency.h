@@ -170,6 +170,19 @@ public:
 	{
 		return _LoadCurrenciesDataFromFile();
 	}
+
+	 float ConvertToUSD(float amount)
+	{
+		return amount / Rate();
+	}
+
+	 float ConvertToOtherCurrency(float amount, clsCurrency Currency2)
+	 {
+		 if (Currency2.CurrencyCode() == "USD")
+			 return ConvertToUSD(amount);
+
+		 return ConvertToUSD(amount) * Currency2.Rate();
+	}
 };
 
 
