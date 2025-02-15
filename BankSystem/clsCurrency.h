@@ -95,6 +95,7 @@ class clsCurrency
 public:
 	clsCurrency(enMode Mode, string Country, string CurrencyCode, string CurrencyName, float Rate)
 	{
+		_Mode = Mode;
 		_Country = Country;
 		_CurrencyCode = CurrencyCode;
 		_CurrencyName = CurrencyName;
